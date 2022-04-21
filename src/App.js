@@ -1,8 +1,8 @@
+import ProductsDashboard from "./pages/ProductsDashboard";
+
 function App() {
   return (
-    <div>
-      
-    </div>
+    <ProductsDashboard />
   );
 }
 
