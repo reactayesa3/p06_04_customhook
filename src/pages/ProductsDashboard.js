@@ -1,21 +1,13 @@
-import React, { useState } from 'react'
-import { findProducts } from '../services/Products';
+import React from 'react'
+import { useSearch } from '../hooks/useSearch';
 
 export default function ProductsDashboard() {
 
-    const [products, setProducts] = useState([]);
-
-    const handleSearch = e => {
-        if(e.target.value.length > 0) {
-            setProducts(findProducts(e.target.value));
-        } else {
-            setProducts([]);
-        }
-    }
+    const { input, data, isLoading } = useSearch('product');
 
     return (
         <div className="container">
-            <input type="search" onChange={handleSearch}/>
+           {input}
             <table>
                 <thead>
                     <tr>
@@ -25,14 +17,17 @@ export default function ProductsDashboard() {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map(product => {
-                        return (
-                            <tr key={product.sku}>
-                                <td>{product.nombre}</td>
-                                <td>{product.marca}</td>
-                                <td>{product.precio}</td>
-                            </tr>
-                        )
+                    { isLoading ?
+                        <tr><td colSpan={3}>Cargando datos...</td></tr>
+                        :
+                        data.map(product => {
+                            return (
+                                <tr key={product.sku}>
+                                    <td>{product.nombre}</td>
+                                    <td>{product.marca}</td>
+                                    <td>{product.precio}</td>
+                                </tr>
+                            )
                     })}
                 </tbody>
             </table>
